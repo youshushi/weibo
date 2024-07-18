@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -15,6 +16,13 @@ class UsersController extends Controller
         $this->middleware('guest', [
             'only' => ['create']
         ]);
+    }
+
+    public function index()
+    {
+
+        $users = User::paginate(6);
+        return view('users.index', compact('users'));
     }
 
     public function create()
@@ -41,6 +49,7 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        Auth::login($user);
         session()->flash('success', 'welcome');
         return redirect()->route('users.show', [$user]);
     }
@@ -69,5 +78,13 @@ class UsersController extends Controller
 
         session()->flash('success', '个人资料更新成功！');
         return redirect()->route('users.show', $user->id);
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();
     }
 }
