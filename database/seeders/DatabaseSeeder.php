@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\UsersTableSeeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -22,7 +23,12 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         Model::unguard();
+
+
         $this->call(UsersTableSeeder::class);
+        $this->call(StatusesTableSeeder::class);
+
+
         Model::reguard();
     }
 }

@@ -12014,3 +12014,7 @@ footer .gravatar_edit .gravatar {
   float: none;
   max-width: 100px;
 }
+footer .status-delete-btn {
+  width: -moz-max-content;
+  width: max-content;
+}
